@@ -1,0 +1,16 @@
+{
+    "name": "com.bitmoksha.procedural.curves.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:03d5cdf8b0b0a38428fb96fd67bb6348"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
