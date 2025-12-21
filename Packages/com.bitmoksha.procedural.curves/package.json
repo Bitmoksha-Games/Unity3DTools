@@ -5,8 +5,8 @@
   "description": "Implements tools and apis for using procedural curves.",
   "unity": "2019.1",
   "unityRelease": "0b5",
-  "documentationUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/tree/main/Packages/com.bitmoksha.procedural.curves/Documentation~/",
-  "changelogUrl": "",
+  "documentationUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/blob/main/Packages/com.bitmoksha.procedural.curves/Documentation~/com.bitmoksha.procedural.curves.md",
+  "changelogUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/blob/main/Packages/com.bitmoksha.procedural.curves/CHANGELOG.md",
   "licensesUrl": "LICENSE.md",
   "dependencies": {
 
