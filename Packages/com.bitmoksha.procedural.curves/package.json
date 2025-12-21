@@ -1,17 +1,17 @@
 {
   "name": "com.bitmoksha.procedural.curves",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "displayName": "Procedural Curves",
   "description": "Implements tools and apis for using procedural curves.",
   "unity": "2019.1",
   "unityRelease": "0b5",
-  "documentationUrl": "",
+  "documentationUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/tree/main/Packages/com.bitmoksha.procedural.curves/Documentation~/",
   "changelogUrl": "",
-  "licensesUrl": "https://example.com/licensing.html",
+  "licensesUrl": "LICENSE.md",
   "dependencies": {
-    
- },
- "keywords": [
+
+  },
+  "keywords": [
     "Bezier",
     "Curves",
     "Procedural"
