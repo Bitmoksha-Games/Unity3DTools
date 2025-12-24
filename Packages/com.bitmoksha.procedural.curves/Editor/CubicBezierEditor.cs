@@ -23,7 +23,7 @@ namespace com.bitmoksha.procedural.curves
             mCurvePosIndicatorVec = targetCurve.GetPoint(mCurvePosIndicatorValue);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Add Sub-Curve", GUILayout.Width(128))) targetCurve.AddCurveStraight();
+            if (GUILayout.Button("Add Sub-Curve", GUILayout.Width(128))) targetCurve.AddCurveOriented();
             if (GUILayout.Button("Redraw Curve", GUILayout.Width(128))) DrawCurve();
             if (GUILayout.Button("Clear Curve", GUILayout.Width(128))) targetCurve.ClearCurve();
             EditorGUILayout.EndHorizontal();

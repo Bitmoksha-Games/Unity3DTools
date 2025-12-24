@@ -181,6 +181,23 @@ namespace com.bitmoksha.procedural.curves
         }
 
         /// <summary>
+        /// Add a sub-curve, default as a straight line, oriented according to the previous curve.
+        /// </summary>
+        public void AddCurveOriented()
+        {
+            Vector3 offset = Vector3.zero;
+            Vector3 direction = Vector3.right;
+            if (_curve.Count > 0)
+            {
+                offset = _curve[_curve.Count - 1].endPoint01;
+                direction = offset - _curve[_curve.Count - 1].GetPoint(0.98f);
+                direction.Normalize();
+            }
+            AddSubCurve(Vector3.zero + offset, direction * 3 + offset, direction + offset, direction * 2 + offset);
+            UpdateCurveLengths();
+        }
+
+        /// <summary>
         /// Draw the curve (uses a linerenderer).
         /// </summary>
         public void DrawCurve()
