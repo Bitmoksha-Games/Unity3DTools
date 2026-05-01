@@ -59,7 +59,8 @@ namespace com.bitmoksha.terrain
                         0,
                         z);
                     SplatCategoryData splatDataAtPos = _terrain.GetCategoryAtPosition(position);
-                    if (splatDataAtPos != null && splatDataAtPos._color == splatData._color)
+                    if (splatDataAtPos != null 
+                        && ColorUtilites.CheckEquality(splatDataAtPos._color, splatData._color))
                     {
                         position.y = _terrain.GetHeightAtPosition(new Vector3(xPos, 0, zPos));
                         positions.Add(position);
@@ -68,6 +69,7 @@ namespace com.bitmoksha.terrain
                 }
                 zPos += sampleDistance;
             }
+
             if (positions.Count <= 0) return;
             if (meshGenerator == null) return;
             meshGenerator.Initialize();

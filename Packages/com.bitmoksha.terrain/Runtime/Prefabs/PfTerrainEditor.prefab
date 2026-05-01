@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _distance: 20
   _minDistance: 5
-  _maxDistance: 30
+  _maxDistance: 50
   _pitch: 20
   _minPitch: 20
   _maxPitch: 70
@@ -3293,10 +3293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbb587f6b70e6b478e8b484d11665af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrViewTerrains: {fileID: 0}
-  _contentParent: {fileID: 0}
-  _buttonTemplate: {fileID: 0}
-  _btnCancel: {fileID: 0}
+  _scrViewTerrains: {fileID: 2113048209544393178}
+  _contentParent: {fileID: 8456804025892120413}
+  _buttonTemplate: {fileID: 1706474572771632058}
+  _btnCancel: {fileID: 886992112155725685}
 --- !u!1 &5807147236216249421
 GameObject:
   m_ObjectHideFlags: 0

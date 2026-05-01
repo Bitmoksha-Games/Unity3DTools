@@ -84,7 +84,16 @@ namespace com.bitmoksha.terrain
 
         public void Hide()
         {
+            Clear();
             gameObject.SetActive(false);
+        }
+
+        public void Clear()
+        {
+            for(int i = _contentParent.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(_contentParent.GetChild(i).gameObject);
+            }
         }
     }
 }

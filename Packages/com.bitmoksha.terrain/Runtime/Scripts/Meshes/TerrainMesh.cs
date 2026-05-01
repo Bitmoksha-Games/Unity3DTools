@@ -153,7 +153,7 @@ namespace com.bitmoksha.terrain
             Color c = mSplatColors[y * mSplatMap.width + x];
             for (int i = 0; i < mSplatCategories.Length; i++)
             {
-                if (mSplatCategories[i]._color == c)
+                if (ColorUtilites.CheckEquality(mSplatCategories[i]._color, c))
                     return mSplatCategories[i];
             }
 
