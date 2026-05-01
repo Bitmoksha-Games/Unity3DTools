@@ -26,13 +26,15 @@ Shader "BitMoksha/Unlit/ShdrInstancedGrass"
     {
         Tags { 
             "RenderType"="Opaque" 
+            "RenderPipeline" = "UniversalPipeline" 
             "LightMode" = "UniversalForward"
-
         }
         LOD 100
 
         Pass
         {
+            Name "ForwardLit"
+            Tags { "LightMode" = "UniversalForward" }
 
             Cull Off
 
@@ -99,7 +101,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedGrass"
                 float4 wpos = mul(mul(_ObjectToWorld, data.m), pos);
                 o.vertex = mul(UNITY_MATRIX_VP, wpos);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.normal = mul(UNITY_MATRIX_VP, v.normal);
+                o.normal = normalize(mul(data.m, v.normal));
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -111,11 +113,12 @@ Shader "BitMoksha/Unlit/ShdrInstancedGrass"
                 float3 normal = i.normal; //facing > 0 ? i.normal : -i.normal;
                 fixed3 lightDir = _WorldSpaceLightPos0;
                 fixed3 lightColor = _LightColor0.rgb;
-                // fixed3 ambient = ShadeSH9(fixed4(i.normal, 1));
+                fixed3 ambient = ShadeSH9(fixed4(i.normal, 1));
 
                 // col *= fixed4(saturate(dot(normal, lightDir)) * lightColor, col.w)
                 //     + fixed4(saturate(dot(-normal, lightDir)) * lightColor * 0.2, col.w);
                 col *= lerp(_BottomColor, _TopColor, i.uv.y);
+                col *= fixed4(saturate(dot(normal, lightDir)) * lightColor, col.w);
                 // col *= fixed4(saturate(dot(normal, lightDir)) * lightColor, col.w);
                 // Light light = GetMainLight();
                 // col *= LightingLambert(light.color, light.direction, normal);

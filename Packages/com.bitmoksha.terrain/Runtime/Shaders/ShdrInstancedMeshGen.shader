@@ -33,6 +33,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
+            #include "UnityLightingCommon.cginc"
 
             struct appdata
             {
@@ -47,6 +48,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 float2 uv : TEXCOORD0;
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
+                float3 normal : NORMAL;
             };
 
             sampler2D _MainTex;
@@ -65,6 +67,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 float4 wpos = mul(mul(_ObjectToWorld, data.m), v.vertex);
                 o.vertex = mul(UNITY_MATRIX_VP, wpos);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.normal = normalize(mul(data.m, v.normal));
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -74,6 +77,10 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 col *= _Color;
+                float3 normal = i.normal; //facing > 0 ? i.normal : -i.normal;
+                fixed3 lightDir = _WorldSpaceLightPos0;
+                fixed3 lightColor = _LightColor0.rgb;
+                col *= fixed4(saturate(dot(normal, lightDir)) * lightColor, col.w);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

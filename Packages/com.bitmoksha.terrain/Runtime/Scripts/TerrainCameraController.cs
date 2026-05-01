@@ -70,11 +70,6 @@ namespace com.bitmoksha.terrain
             rt.Normalize();
             Vector3 moveDir = (fwd * delta.y + rt * delta.x).normalized * _panningSpeed * Time.deltaTime;
             mReferencePoint += moveDir;
-            //mReferencePoint += (fwd * delta.y * Time.deltaTime) + (rt * delta.x * Time.deltaTime);
-            //Vector3 moveDir = (fwd + rt).normalized;
-            //Vector3 moveDir = mCamera.transform.right + mCamera.transform.forward;
-            //mReferencePoint += (new Vector3(moveDir.x * delta.x, 0, moveDir.z * delta.y)
-            //    * Time.deltaTime);
         }
 
         public void UpdateZoom(Vector2 delta)

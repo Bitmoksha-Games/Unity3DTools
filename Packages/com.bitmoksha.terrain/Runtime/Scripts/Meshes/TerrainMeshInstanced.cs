@@ -102,7 +102,6 @@ namespace com.bitmoksha.terrain
                 Vector3 position = positions[i]
                     + Vector3.Lerp(_instanceConfig.positionRandomMin,
                     _instanceConfig.positionRandomMax, UnityEngine.Random.Range(0f, 1f));
-                //Debug.Log(position);
                 Quaternion rotation = Quaternion.Lerp(_instanceConfig.rotationRandomMin,
                     _instanceConfig.rotationRandomMax, UnityEngine.Random.Range(0f, 1f));
                 Vector3 scale = Vector3.Lerp(_instanceConfig.scaleRandomMin,
@@ -125,7 +124,6 @@ namespace com.bitmoksha.terrain
 
         public override Material BuildMaterial()
         {
-            //Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             Material mat = new Material(Shader.Find(SHDR_NAME));
             return mat;
         }
@@ -164,15 +162,6 @@ namespace com.bitmoksha.terrain
         protected override void DoCustomRender()
         {
             if (mRenderParams.matProps == null) return;
-            //RenderParams renderParams = new RenderParams(mMaterial);
-            ////mRenderParams.worldBounds = gameObject.GetComponent<BoxCollider>().bounds;
-            //renderParams.matProps = new MaterialPropertyBlock();
-            //renderParams.worldBounds = new Bounds(Vector3.zero, 10000 * Vector3.one);
-            //renderParams.matProps.SetMatrix("_ObjectToWorld", transform.localToWorldMatrix);
-            //renderParams.matProps.SetFloat("_NumInstances", 10.0f);
-            //mRenderParams.material = mMaterial;
-            //mRenderParams.matProps.SetFloat("_NumInstances", _instanceCount);
-            //Debug.Log("Rendering " + mInstanceCount + " " + gameObject.name + " instances.");
             mRenderParams.matProps.SetMatrix(PARAMNAME_OBJECT_TO_WORLD, transform.localToWorldMatrix);
             Graphics.RenderMeshPrimitives(mRenderParams, mMesh, 0, mInstanceCount);
         }
@@ -184,7 +173,9 @@ namespace com.bitmoksha.terrain
 
         private void OnDisable()
         {
-            
+            if(mInstanceBuffer != null)
+                mInstanceBuffer.Dispose();
         }
+
     }
 }

@@ -67,8 +67,7 @@ namespace com.bitmoksha.terrain
             }
             Vector2 uv = GetUvForPosition(position);
             int x = Mathf.Clamp((int)(uv.x * mSplatMap.width), 0, mSplatMap.width - 1);
-            int y = Mathf.Clamp((int)(uv.y * mSplatMap.height), 0, mSplatMap.height - 1); ;
-            //Debug.Log(x + ", " + y + " : " + _splatCategories[mActiveSplatCategory]._color);
+            int y = Mathf.Clamp((int)(uv.y * mSplatMap.height), 0, mSplatMap.height - 1);
             mSplatColors[y * mSplatMap.width + x] =
                 mSplatCategories[mActiveSplatCategory]._color;
             mSplatMap.SetPixels(mSplatColors);
@@ -319,7 +318,6 @@ namespace com.bitmoksha.terrain
                 GetComponent<MeshRenderer>().material.mainTexture = mSplatMap;
                 return;
             }
-            //Debug.Log("Splat Distances: " + _splatCategories[0]._color + " - " + _splatCategories[1]._color + " = " + (_splatCategories[0]._color - _splatCategories[1]._color));
 
             mSplatMap = new Texture2D((int)_textureSize, (int)_textureSize, TextureFormat.ARGB32, 0, true);
             //mSplatMap.filterMode = FilterMode.Point;
