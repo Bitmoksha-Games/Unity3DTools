@@ -9,4 +9,4 @@ This packages implementations a runtime terrain editor.
 
 ## Related Documents
 - [Main Documentation Page](Documentation~/com.bitmoksha.terrain.md)
-- [Changelog][CHANGELOG.md]
+- [Changelog](CHANGELOG.md)
