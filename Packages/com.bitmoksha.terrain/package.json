@@ -1,0 +1,31 @@
+{
+  "name": "com.bitmoksha.terrain",
+  "version": "0.0.1",
+  "displayName": "Runtime Terrain Editor",
+  "description": "Implements editor and tools for generating terrains at runtime.",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "documentationUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/blob/main/Packages/com.bitmoksha.terrain/Documentation~/com.bitmoksha.terrain.md",
+  "changelogUrl": "https://github.com/Bitmoksha-Games/Unity3DTools/blob/main/Packages/com.bitmoksha.terrain/CHANGELOG.md",
+  "licensesUrl": "LICENSE.md",
+  "dependencies": {
+
+  },
+  "keywords": [
+    "Terrain",
+    "Grass",
+    "Procedural"
+  ],
+  "author": {
+    "name": "Bitmoksha",
+    "email": "bitmokshagames@gmail.com",
+    "url": "https://bitmoksha.com/"
+  }, 
+  "samples": [
+    {
+      "displayName": "Terrain Editor Sample",
+      "description": "Simple terrain editor sample.",
+      "path": "Samples~/TerrainEditorSample"
+    }
+  ]
+}
