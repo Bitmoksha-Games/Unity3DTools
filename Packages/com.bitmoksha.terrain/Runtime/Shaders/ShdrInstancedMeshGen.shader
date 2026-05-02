@@ -79,7 +79,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                col *= _Color;
+                // col *= _Color;
                 float3 normal = i.normal; //facing > 0 ? i.normal : -i.normal;
                 fixed3 lightDir = _WorldSpaceLightPos0;
                 fixed3 lightColor = _LightColor0.rgb;

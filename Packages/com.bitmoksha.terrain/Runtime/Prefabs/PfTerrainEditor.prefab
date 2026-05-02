@@ -3565,7 +3565,7 @@ MonoBehaviour:
   - _name: Trees
     _color: {r: 0.8584906, g: 0.41766682, b: 0.10123708, a: 1}
     _sampleDistance: 2
-    _instancedObject: {fileID: 211012184238900561, guid: 988ff978339833240a111a44fd875803, type: 3}
+    _instancedObject: {fileID: 211012184238900561, guid: 8144e103ac057fd4784338607baaabe8, type: 3}
   _terrainCameraController: {fileID: 359813807083584358}
   _btnSave: {fileID: 8062320825962491306}
   _btnLoad: {fileID: 1488212672533100300}
