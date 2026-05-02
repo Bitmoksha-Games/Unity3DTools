@@ -10,3 +10,6 @@ This packages implementations a runtime terrain editor.
 ## Related Documents
 - [Main Documentation Page](Documentation~/com.bitmoksha.terrain.md)
 - [Changelog](CHANGELOG.md)
+
+## External links
+- [Test tree asset](https://free3d.com/3d-model/low-poly-tree-449895.html)

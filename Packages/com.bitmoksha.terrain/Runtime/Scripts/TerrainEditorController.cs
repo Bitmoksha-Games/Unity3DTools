@@ -201,12 +201,12 @@ namespace com.bitmoksha.terrain
         {
             if (mSaveData == null) mSaveData = new TerrainSaveData();
             mSaveData.terrainMesh = _terrainMesh.meshConfig as TerrainMeshData;
-            mSaveData.terrainMesh.splatPath = Path.Combine(Application.dataPath,
+            mSaveData.terrainMesh.splatPath = Path.Combine(Application.persistentDataPath,
                 "terrain_splat_" + mSaveData.terrainId + ".png");
             byte[] splatData = _terrainMesh.splatMap.EncodeToPNG();
             File.WriteAllBytes(mSaveData.terrainMesh.splatPath, splatData);
             Debug.Log("Save Terrain: " + mSaveData.GetSaveString());
-            string path = Path.Combine(Application.dataPath, 
+            string path = Path.Combine(Application.persistentDataPath, 
                 "terrain_" + mSaveData.terrainId + ".json");
             File.WriteAllText(path, mSaveData.GetSaveString());
             
@@ -215,9 +215,9 @@ namespace com.bitmoksha.terrain
 
         void OnLoadTerrainClicked()
         {
-            string path = Path.Combine(Application.dataPath,
+            string path = Path.Combine(Application.persistentDataPath,
                 "terrain_*" + ".json");
-            string[] terrainFilePaths = Directory.GetFiles(Application.dataPath, "terrain_*" + ".json", SearchOption.TopDirectoryOnly);
+            string[] terrainFilePaths = Directory.GetFiles(Application.persistentDataPath, "terrain_*" + ".json", SearchOption.TopDirectoryOnly);
             Debug.Log("Found terrain files: " + string.Join(", ", terrainFilePaths));
             _terrainListUi.Show();
         }

@@ -40,9 +40,9 @@ namespace com.bitmoksha.terrain
 
         public void Show()
         {
-            string path = Path.Combine(Application.dataPath,
+            string path = Path.Combine(Application.persistentDataPath,
                 "terrain_*" + ".json");
-            string[] terrainFilePaths = Directory.GetFiles(Application.dataPath, 
+            string[] terrainFilePaths = Directory.GetFiles(Application.persistentDataPath, 
                 "terrain_*" + ".json", SearchOption.TopDirectoryOnly);
 
             for(int i = 0; i < terrainFilePaths.Length; i++)

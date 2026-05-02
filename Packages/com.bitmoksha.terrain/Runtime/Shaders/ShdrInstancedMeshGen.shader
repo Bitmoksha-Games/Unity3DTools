@@ -41,6 +41,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
+                float4 color: COLOR;
             };
 
             struct v2f
@@ -49,6 +50,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
                 float3 normal : NORMAL;
+                float4 color: COLOR;
             };
 
             sampler2D _MainTex;
@@ -68,6 +70,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 o.vertex = mul(UNITY_MATRIX_VP, wpos);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.normal = normalize(mul(data.m, v.normal));
+                o.color = v.color;
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -81,6 +84,7 @@ Shader "BitMoksha/Unlit/ShdrInstancedMeshGen"
                 fixed3 lightDir = _WorldSpaceLightPos0;
                 fixed3 lightColor = _LightColor0.rgb;
                 col *= fixed4(saturate(dot(normal, lightDir)) * lightColor, col.w);
+                col *= i.color;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
