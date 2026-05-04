@@ -109,11 +109,17 @@ namespace com.bitmoksha.terrain
         public float GetHeightAtPosition(Vector3 position)
         {
             int tri = GetTriangleForPosition(position);
-            // Simple hack, return centroid height
-            // ToDo: Project point to triangle and return height of the projected point.
-            return ((mPositionsCache[mIndicesCache[tri * 3]] 
-                + mPositionsCache[mIndicesCache[tri * 3 + 1]] 
-                + mPositionsCache[mIndicesCache[tri * 3 + 2]]) / 3f).y;
+            Vector3 p1 = mPositionsCache[mIndicesCache[tri * 3]];
+            Vector3 p2 = mPositionsCache[mIndicesCache[tri * 3 + 1]];
+            Vector3 p3 = mPositionsCache[mIndicesCache[tri * 3 + 2]];
+            float d = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+            float dInv = 1f / d;
+            float a = (p2.z - p3.z) * (position.x - p3.x) + (p3.x - p2.x) * (position.z - p3.z);
+            a *= dInv;
+            float b = (p3.z - p1.z) * (position.x - p3.x) + (p1.x - p3.x) * (position.z - p3.z);
+            b *= dInv;
+            float c = 1f - a - b;
+            return (a * p1.y + b * p2.y + c * p3.y);
         }
 
         public Vector2 GetUvForPosition(Vector3 position)
