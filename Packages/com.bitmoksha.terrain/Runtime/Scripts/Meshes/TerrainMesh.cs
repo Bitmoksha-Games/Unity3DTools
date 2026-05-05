@@ -31,23 +31,23 @@ namespace com.bitmoksha.terrain
 
         [SerializeField]
         [Tooltip("Size of the terrain.")]
-        private Vector2 _worldDimensions = Vector2.one;
+        protected Vector2 _worldDimensions = Vector2.one;
         [SerializeField]
         [Tooltip("Number of horizontal and vertical vertices")]
-        private Vector2Int _meshDimensions = new Vector2Int(75, 75);
+        protected Vector2Int _meshDimensions = new Vector2Int(75, 75);
         [SerializeField]
-        private Vector2Int _heightRange = new Vector2Int(0, 5);
+        protected Vector2Int _heightRange = new Vector2Int(0, 5);
         [SerializeField]
-        private TextureSizes _textureSize = TextureSizes._64x64;
+        protected TextureSizes _textureSize = TextureSizes._64x64;
 
 
-        private Texture2D mSplatMap;
-        private Color[] mSplatColors = null;
-        private int mActiveSplatCategory;
-        private int mRandomSeed;
-        private SplatCategoryData[] mSplatCategories = null;
-        private Vector3[] mPositionsCache;
-        private int[] mIndicesCache;
+        protected Texture2D mSplatMap;
+        protected Color[] mSplatColors = null;
+        protected int mActiveSplatCategory;
+        protected int mRandomSeed;
+        protected SplatCategoryData[] mSplatCategories = null;
+        protected Vector3[] mPositionsCache;
+        protected int[] mIndicesCache;
 
 
         public Texture2D splatMap => mSplatMap;
@@ -217,7 +217,8 @@ namespace com.bitmoksha.terrain
                     //float y = Mathf.PerlinNoise((float)x / (float)cols, (float)z / (float)rows) * 5;
                     float y = Mathf.PerlinNoise((float)x / (float)cols + rndX, 
                         (float)z / (float)rows + rndY) 
-                        * (terrainData.heightRange.y - terrainData.heightRange.x) + terrainData.heightRange.x;
+                        * (terrainData.heightRange.y - terrainData.heightRange.x) 
+                        + terrainData.heightRange.x;
                     positions[z * cols + x] = new Vector3(xPos,y * 1, zPos);
                     xPos += resolution.x;
                     // UV
@@ -299,7 +300,16 @@ namespace com.bitmoksha.terrain
             mActiveSplatCategory = 0;
             BuildSplatMap();
             DestroyImmediate(gameObject.GetComponent<BoxCollider>());
-            gameObject.AddComponent<MeshCollider>();
+            MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+            // Trying to force cooking the collider data. 
+            // Seems to be required for IL2CPP builds as raycasting for drawing the splat doesn't
+            // seem to work otherwise.
+            meshCollider.cookingOptions = MeshColliderCookingOptions.CookForFasterSimulation |
+                              MeshColliderCookingOptions.EnableMeshCleaning |
+                              MeshColliderCookingOptions.WeldColocatedVertices |
+                              MeshColliderCookingOptions.UseFastMidphase;
+            meshCollider.sharedMesh = null;
+            meshCollider.sharedMesh = mMesh;
         }
 
         protected override void DoCustomRender()
