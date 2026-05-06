@@ -171,6 +171,33 @@ namespace com.bitmoksha.terrain
             mActiveSplatCategory = idx;
         }
 
+        public void SetHeightmap(Texture2D heightMap, Texture2D heightMapAlbedo)
+        {
+            Color[] colors = heightMap.GetPixels();
+            TerrainMeshData terrainData = (TerrainMeshData)mMeshConfig;
+            int rows = terrainData.meshDimensions.x;
+            int cols = terrainData.meshDimensions.y;
+            int numVertices = rows * cols;
+            Vector3[] positions = mMesh.vertices;
+            for (int z = 0; z < rows; z++)
+            {
+                for (int x = 0; x < cols; x++)
+                {
+                    int texX = (int)((float)x / (float)cols * heightMap.width);
+                    int texY = (int)((float)z / (float)rows * heightMap.height);
+                    float y = colors[texY * heightMap.width + texX].r
+                        * (terrainData.heightRange.y - terrainData.heightRange.x)
+                        + terrainData.heightRange.x;
+                    Vector3 pos = positions[z * cols + x];
+                    pos.y = y;
+                    positions[z * cols + x] = pos;
+                }
+            }
+            mMesh.vertices = positions;
+            mPositionsCache = positions;
+            GetComponent<MeshRenderer>().material.mainTexture = heightMapAlbedo;
+        }
+
         public override Mesh BuildMesh()
         {
             if (mMeshConfig == null)
@@ -300,7 +327,16 @@ namespace com.bitmoksha.terrain
             mActiveSplatCategory = 0;
             BuildSplatMap();
             DestroyImmediate(gameObject.GetComponent<BoxCollider>());
-            MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+            RefreshMeshCollider();
+        }
+
+        public void RefreshMeshCollider()
+        {
+            MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
+            if(meshCollider == null)
+            {
+                meshCollider = gameObject.AddComponent<MeshCollider>();
+            }
             // Trying to force cooking the collider data. 
             // Seems to be required for IL2CPP builds as raycasting for drawing the splat doesn't
             // seem to work otherwise.

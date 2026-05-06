@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -41,10 +42,14 @@ namespace com.bitmoksha.terrain
         private Button _btnSave;
         [SerializeField]
         private Button _btnLoad;
+        [SerializeField]
+        private Button _btnLoadMap;
         [SerializeField] 
         private UiTerrainsList _terrainListUi;
         [SerializeField]
         private TerrainElementsSpawner _spawner;
+        [SerializeField]
+        private HeightMapInfo[] _heightMaps;
 
         private TerrainEditorState mCurrentEditorState;
         private Vector3 mLastMousePosition;
@@ -76,9 +81,13 @@ namespace com.bitmoksha.terrain
 
             _btnSave.onClick.AddListener(OnSaveTerrainClicked);
             _btnLoad.onClick.AddListener(OnLoadTerrainClicked);
+            _btnLoadMap.onClick.AddListener(OnLoadHeightmapClicked);
 
             _terrainListUi.onTerrainSelected += 
                 (saveData) => _terrainMesh.Initialize(saveData.terrainMesh);
+            _terrainListUi.onHeightmapSelected +=
+                (heightmapIndex) => _terrainMesh.SetHeightmap(_heightMaps[heightmapIndex].heightMap,
+                    _heightMaps[heightmapIndex].heightMapAlbedo);
         }
 
         // Update is called once per frame
@@ -215,11 +224,12 @@ namespace com.bitmoksha.terrain
 
         void OnLoadTerrainClicked()
         {
-            string path = Path.Combine(Application.persistentDataPath,
-                "terrain_*" + ".json");
-            string[] terrainFilePaths = Directory.GetFiles(Application.persistentDataPath, "terrain_*" + ".json", SearchOption.TopDirectoryOnly);
-            Debug.Log("Found terrain files: " + string.Join(", ", terrainFilePaths));
-            _terrainListUi.Show();
+            _terrainListUi.ShowSavedTerrains();
+        }
+
+        void OnLoadHeightmapClicked()
+        {
+            _terrainListUi.ShowHeightMaps(_heightMaps);
         }
 
         void OnSpawnClicked()

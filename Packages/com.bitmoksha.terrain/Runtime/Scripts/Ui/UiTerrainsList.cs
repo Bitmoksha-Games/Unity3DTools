@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace com.bitmoksha.terrain
@@ -12,6 +14,7 @@ namespace com.bitmoksha.terrain
     public class UiTerrainsList : MonoBehaviour
     {
         public delegate void TerrainSelectedDelegate(TerrainSaveData terrainData);
+        public delegate void HeightmapSelectedDelegate(int index);
 
         [SerializeField]
         private ScrollRect _scrViewTerrains;
@@ -23,11 +26,18 @@ namespace com.bitmoksha.terrain
         private Button _btnCancel;
 
         private TerrainSelectedDelegate mOnTerrainSelected;
+        private HeightmapSelectedDelegate mOnHeightmapSelected;
 
         public event TerrainSelectedDelegate onTerrainSelected
         {
             add { mOnTerrainSelected += value; }
             remove { mOnTerrainSelected -= value; }
+        }
+
+        public event HeightmapSelectedDelegate onHeightmapSelected
+        {
+            add { mOnHeightmapSelected += value; }
+            remove { mOnHeightmapSelected -= value; }
         }
 
 
@@ -38,7 +48,7 @@ namespace com.bitmoksha.terrain
         }
         #endregion
 
-        public void Show()
+        public void ShowSavedTerrains()
         {
             string path = Path.Combine(Application.persistentDataPath,
                 "terrain_*" + ".json");
@@ -53,22 +63,7 @@ namespace com.bitmoksha.terrain
                 Texture2D splatTex = new Texture2D(2, 2);
                 splatTex.LoadImage(splatBytes, true);
 
-                GameObject btnObject = GameObject.Instantiate<GameObject>(_buttonTemplate);
-                Image splatImg = null;
-                foreach (Transform child in btnObject.transform)
-                {
-                    splatImg = child.GetComponentInChildren<Image>();
-                    if (splatImg != null)
-                    {
-                        break;
-                    }
-                }
-                if (splatImg != null)
-                    splatImg.sprite = Sprite.Create(splatTex, 
-                    new Rect(0, 0, splatTex.width, splatTex.height), new Vector2(0.5f, 0.5f));
-                btnObject.SetActive(true);
-                btnObject.transform.SetParent(_contentParent);
-                btnObject.GetComponent<Button>().onClick.AddListener(
+                SetupButton(splatTex, 
                     () =>
                     {
                         if (mOnTerrainSelected != null)
@@ -77,6 +72,23 @@ namespace com.bitmoksha.terrain
                     });
 
                 Debug.Log("Read data: " + saveData.terrainId);
+            }
+
+            gameObject.SetActive(true);
+        }
+
+        public void ShowHeightMaps(HeightMapInfo[] heightmapInfo)
+        {
+            for (int i = 0; i < heightmapInfo.Length; i++)
+            {
+                int index = i;
+                SetupButton(heightmapInfo[i].heightMap,
+                    () =>
+                    {
+                        if (mOnHeightmapSelected != null)
+                            mOnHeightmapSelected(index);
+                        Hide();
+                    });
             }
 
             gameObject.SetActive(true);
@@ -94,6 +106,26 @@ namespace com.bitmoksha.terrain
             {
                 DestroyImmediate(_contentParent.GetChild(i).gameObject);
             }
+        }
+
+        private void SetupButton(Texture2D iconTexture, UnityAction action)
+        {
+            GameObject btnObject = GameObject.Instantiate<GameObject>(_buttonTemplate);
+            Image splatImg = null;
+            foreach (Transform child in btnObject.transform)
+            {
+                splatImg = child.GetComponentInChildren<Image>();
+                if (splatImg != null)
+                {
+                    break;
+                }
+            }
+            if (splatImg != null)
+                splatImg.sprite = Sprite.Create(iconTexture,
+                new Rect(0, 0, iconTexture.width, iconTexture.height), new Vector2(0.5f, 0.5f));
+            btnObject.SetActive(true);
+            btnObject.transform.SetParent(_contentParent);
+            btnObject.GetComponent<Button>().onClick.AddListener(action);
         }
     }
 }
